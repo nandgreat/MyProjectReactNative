@@ -1,63 +1,46 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { Button, FlatList, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, View, FlatList } from 'react-native';
+import AddTodo from './components/addTodo';
+import Header from './components/header';
+import TodoItem from './components/todoItem';
 
 export default function App() {
-
-  const [people, setPeople] = useState([
-    { name: 'Sophia', id: '37' },
-    { name: 'Plangnan', id: '9' },
-    { name: 'Nandom', id: '65' },
-    { name: 'Angir', id: '24' },
-    { name: 'Fwangzeen', id: '12' },
-    { name: 'Pebang', id: '25' },
-    { name: 'Makario', id: '51' },
-    { name: 'Sophia', id: '31' },
-    { name: 'Plangnan', id: '79' },
-    { name: 'Nandom', id: '69' },
-    { name: 'Angir', id: '28' },
-    { name: 'Fwangzeen', id: '14' },
-    { name: 'Pebang', id: '20' },
-    { name: 'Makario', id: '55' },
+  const [todos, setTodos] = useState([
+    { text: 'buy coffee', key: '1' },
+    { text: 'create an app', key: '2' },
+    { text: 'play on the switch', key: '3' }
   ]);
 
-  const pressHandler = (id) => {
-    console.log(id);
-    setPeople((prevPeople) => {
-      return prevPeople.filter(person => person.id != id)
+  const pressHandler = (key) => {
+    setTodos((prevTodos) => {
+      return prevTodos.filter(todo => todo.key != key);
+    })
+  }
+
+  const submitHandler = (text) => {
+    setTodos((prevTodos) => {
+      return [
+        { text: text, key: Math.random().toString() },
+        ...prevTodos
+      ]
     })
   }
 
   return (
-
     <View style={styles.container}>
-
-      <FlatList
-        numColumns={2}
-        keyExtractor={(item) => item.id}
-        data={people}
-        renderItem={({ item }) => (
-          (
-            <TouchableOpacity onPress={() => pressHandler(item.id)}>
-              <Text style={styles.listStyle}>
-                {item.name}
-              </Text>
-            </TouchableOpacity>
-          )
-        )}
-      />
-
-      {/* <ScrollView>
-        {people.map(item => {
-          return (
-            <View style={styles.itemStyle}>
-              <Text style={styles.listStyle}>
-                {item.name}
-              </Text>
-            </View>
-          )
-        })}
-      </ScrollView> */}
+      <Header />
+      <View style={styles.content}>
+        {/* add todo form */}
+        <AddTodo submitHandler={submitHandler}/>
+        <View style={styles.list}>
+          <FlatList
+            data={todos}
+            renderItem={({ item }) => (
+              <TodoItem item={item} pressHandler={pressHandler} />
+            )}
+          />
+        </View>
+      </View>
     </View>
   );
 }
@@ -66,20 +49,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    marginTop: 15.0,
-    color: '#ff00ff',
-    paddingHorizontal: 22
   },
-  listStyle: {
-    fontSize: 28.0,
-    color: 'red',
-    backgroundColor: 'pink',
-    margin: 10,
-    padding: 10
+  content: {
+    padding: 40,
   },
-  itemStyle: {
-    backgroundColor: 'pink',
-    margin: 10,
-    padding: 10
-  }
+  list: {
+    marginTop: 20,
+  },
 });
