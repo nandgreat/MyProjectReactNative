@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { StyleSheet, Text, Alert, View, FlatList } from 'react-native';
 import AddTodo from './components/addTodo';
 import Header from './components/header';
 import TodoItem from './components/todoItem';
@@ -18,12 +18,21 @@ export default function App() {
   }
 
   const submitHandler = (text) => {
-    setTodos((prevTodos) => {
-      return [
-        { text: text, key: Math.random().toString() },
-        ...prevTodos
-      ]
-    })
+
+    if (text.length > 3) {
+
+      setTodos((prevTodos) => {
+        return [
+          { text: text, key: Math.random().toString() },
+          ...prevTodos
+        ]
+      })
+    } else {
+      Alert.alert('OOPS!', 'Please enter Todos to continues', [
+        { text: 'Understood', onPress: () => console.log("alert closed") }
+      ])
+
+    }
   }
 
   return (
@@ -31,7 +40,7 @@ export default function App() {
       <Header />
       <View style={styles.content}>
         {/* add todo form */}
-        <AddTodo submitHandler={submitHandler}/>
+        <AddTodo submitHandler={submitHandler} />
         <View style={styles.list}>
           <FlatList
             data={todos}
