@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, Alert, View, Keyboard, TouchableWithoutFeedback, Button } from 'react-native';
 import { globalStyles } from '../styles/global';
 
-export default function ReviewDetails({navigation}) {
+export default function ReviewDetails({ navigation }) {
 
     const pressHandler = () => {
         navigation.goBack();
@@ -10,8 +10,9 @@ export default function ReviewDetails({navigation}) {
 
     return (
         <View style={globalStyles.container}>
-            <Text style={globalStyles.titleText}>Welcome Review Details Screen</Text>
-            <Button title="Back to Home Screen" onPress={pressHandler} />
+            <Text style={globalStyles.titleText}>{navigation.getParam('title')}</Text>
+            <Text style={globalStyles.titleText}>{navigation.getParam('body')}</Text>
+            <Text style={globalStyles.titleText}>{navigation.getParam('rating')}</Text>
         </View>
     );
 }
