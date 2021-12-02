@@ -4,6 +4,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Card from '../shared/card';
 import { globalStyles } from '../styles/global';
 import { MaterialIcons } from '@expo/vector-icons'
+import ReviewForm from './reviewForm';
 
 export default function Home({ navigation }) {
 
@@ -14,6 +15,14 @@ export default function Home({ navigation }) {
         { title: "Gotta Catch Them All (again)", rating: 4, body: 'Lorem ipsum', key: '2' },
         { title: "Not so 'Final' Fantasy", rating: 3, body: 'Lorem ipsum', key: '3' }
     ]);
+
+    const addReview = (review) => {
+        review.key = Math.random().toString();
+        setReviews((currentReviews) => {
+            return [review, ...currentReviews]
+        });
+        setModalOpen(false);
+    }
 
     return (
         <View style={globalStyles.container}>
@@ -27,7 +36,7 @@ export default function Home({ navigation }) {
                         onPress={() => setModalOpen(false)}
                     />
 
-                    <Text>Hello from modal</Text>
+                    <ReviewForm addReview={addReview} />
                 </View>
             </Modal>
 
