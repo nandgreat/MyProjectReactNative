@@ -2,6 +2,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import Home from '../screens/home';
 import ReviewDetails from '../screens/reviewDetails';
 import Header from '../shared/header';
+import { Image } from 'react-native';
 import React from 'react';
 
 
@@ -11,6 +12,8 @@ const screens = {
         navigationOptions: ({ navigation }) => {
             return {
                 headerTitle: () => <Header title='GameZone' navigation={navigation} />,
+                headerBackground: () => <Image source={require('../assets/game_bg.png')} style={{height:60}}/>,
+
             }
         }
     },
